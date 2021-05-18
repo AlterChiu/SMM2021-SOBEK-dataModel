@@ -17,7 +17,7 @@ public abstract class ProfileDatModel {
 	 * Pipe object : it's the end level of the pipe(lowest level)
 	 * 
 	 */
-	public double bedLevel = Global.doubleNull;
+	protected double bedLevel = Global.doubleNull;
 
 	public double getBebLevel() {
 		return this.bedLevel;
@@ -40,7 +40,7 @@ public abstract class ProfileDatModel {
 	 * 
 	 * Pipe object : it's the top level of the pipe(highest level) , default to 0
 	 */
-	public double pipeTopLevel = Global.doubleNull;
+	protected double pipeTopLevel = Global.doubleNull;
 
 	public double getPipeTopLevel() {
 		return this.pipeTopLevel;
@@ -64,7 +64,7 @@ public abstract class ProfileDatModel {
 	 * which the bedLevel reference to the first(left) point of crossSection
 	 * 
 	 */
-	public double levelLeft = Global.doubleNull;
+	protected double levelLeft = Global.doubleNull;
 
 	public double getLevelLeft() {
 		return this.levelLeft;
@@ -88,7 +88,7 @@ public abstract class ProfileDatModel {
 	 * which the bedLevel reference to the last(right) point of crossSection
 	 * 
 	 */
-	public double levelRight = 0;
+	protected double levelRight = 0;
 
 	public double getLevelRight() {
 		return this.levelRight;
@@ -105,7 +105,7 @@ public abstract class ProfileDatModel {
 	 * 
 	 * @ Description : id of reference crossSection(profile.def)
 	 */
-	public String referenceProfile = Global.stringNull;
+	protected String referenceProfile = Global.stringNull;
 
 	public String getReferenceProfile() {
 		return this.referenceProfile;
@@ -126,7 +126,7 @@ public abstract class ProfileDatModel {
 	 * 
 	 * @ Description : id of this object(profile.dat)
 	 */
-	public String id = Global.stringNull;
+	protected String id = Global.stringNull;
 
 	public String getId() {
 		return this.id;
