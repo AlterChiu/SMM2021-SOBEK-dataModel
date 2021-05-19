@@ -1,8 +1,9 @@
 package SobekDataModel.writer.crossSection.profileDat;
 
+import SobekDataModel.KeyValuePair;
+
 public class ProfileDatYZ extends ProfileDatModel {
 
-	@Override
 	public Boolean checkNecessaryProperty() throws Exception {
 		if (this.isIdNull())
 			throw new Exception("*ERROR* no id (key:id) for crossSection");
@@ -26,12 +27,37 @@ public class ProfileDatYZ extends ProfileDatModel {
 			this.checkNecessaryProperty();
 
 			StringBuilder outString = new StringBuilder();
+
+			// start tag
 			outString.append("CRSN");
-			outString.append(" id '" + this.id + "'");
-			outString.append(" di '" + this.getReferenceProfile() + "'");
-			outString.append(" rl " + this.bedLevel);
-			outString.append(" rs '" + this.levelLeft);
-			outString.append("crsn");
+
+			// set id
+			KeyValuePair id = this.getIdKeyValue();
+			outString.append(" " + id.getKey() + " '" + id.getValue() + "'");
+
+			// set reference profile id (id in profile.def)
+			KeyValuePair referenceProfile = this.getReferenceProfileKeyValue();
+			outString.append(" " + referenceProfile.getKey() + " '" + referenceProfile.getValue() + "'");
+
+			// set bedLevel
+			KeyValuePair bedLevel = this.getBedLevelKeyValue();
+			outString.append(" " + bedLevel.getKey() + " " + bedLevel.getValue());
+
+			// set left level of crossSection
+			KeyValuePair leftLevel = this.getLevelLeftKeyValue();
+			outString.append(" " + leftLevel.getKey() + " " + leftLevel.getValue());
+
+//			// OPTIONAL
+//			// ======================================================
+//
+//			// rightLevel
+//			if (this.levelRight != Global.doubleNull) {
+//				KeyValuePair rightLevel = this.getLevelRightKeyValue();
+//				outString.append(" " + rightLevel.getKey() + " " + rightLevel.getValue());
+//			}
+
+			// end tag
+			outString.append(" crsn");
 			return outString.toString();
 		} catch (Exception e) {
 			e.printStackTrace();

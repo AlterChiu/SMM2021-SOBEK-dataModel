@@ -1,8 +1,9 @@
 package SobekDataModel.writer.crossSection.profileDat;
 
+import SobekDataModel.KeyValuePair;
+
 public class ProfileDatPipe extends ProfileDatModel {
 
-	@Override
 	public Boolean checkNecessaryProperty() throws Exception {
 		// TODO Auto-generated method stub
 
@@ -28,11 +29,27 @@ public class ProfileDatPipe extends ProfileDatModel {
 			this.checkNecessaryProperty();
 
 			StringBuilder outString = new StringBuilder();
+			
+			// start tag
 			outString.append("CRSN");
-			outString.append(" id '" + this.id + "'");
-			outString.append(" di '" + this.getReferenceProfile() + "'");
-			outString.append(" rl " + this.bedLevel);
-			outString.append(" ll " + this.pipeTopLevel);
+
+			// set id
+			KeyValuePair id = this.getIdKeyValue();
+			outString.append(" " + id.getKey() + " '" + id.getValue() + "'");
+
+			// set reference profile id (id in profile.def)
+			KeyValuePair referenceProfile = this.getReferenceProfileKeyValue();
+			outString.append(" " + referenceProfile.getKey() + " '" + referenceProfile.getValue() + "'");
+
+			// set bedLevel
+			KeyValuePair bedLevel = this.getBedLevelKeyValue();
+			outString.append(" " + bedLevel.getKey() + " " + bedLevel.getValue());
+
+			// set pipeTopLevel
+			KeyValuePair pipeTopLevel = this.getPipeTopLevelKeyValue();
+			outString.append(" " + pipeTopLevel.getKey() + " " + pipeTopLevel.getValue());
+			
+			// end tag
 			outString.append(" crsn");
 			return outString.toString();
 		} catch (Exception e) {

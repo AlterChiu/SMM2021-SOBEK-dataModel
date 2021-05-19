@@ -1,6 +1,10 @@
 package SobekDataModel.writer.crossSection.profileDat;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import SobekDataModel.Global;
+import SobekDataModel.KeyValuePair;
 
 public abstract class ProfileDatModel {
 
@@ -24,11 +28,15 @@ public abstract class ProfileDatModel {
 	}
 
 	public void setBedLevel(double bedLevel) {
-		this.bedLevel = bedLevel;
+		this.bedLevel = new BigDecimal(bedLevel).setScale(Global.dataDecimale, RoundingMode.UP).doubleValue();
 	}
 
 	public boolean isBedLevelNull() {
 		return this.bedLevel == Global.doubleNull;
+	}
+
+	public KeyValuePair<String, Double> getBedLevelKeyValue() {
+		return new KeyValuePair<String, Double>("rl", this.bedLevel);
 	}
 
 	/*
@@ -47,11 +55,15 @@ public abstract class ProfileDatModel {
 	}
 
 	public void setPipeTopLevel(double pipeTopLevel) {
-		this.pipeTopLevel = pipeTopLevel;
+		this.pipeTopLevel = new BigDecimal(pipeTopLevel).setScale(Global.dataDecimale, RoundingMode.UP).doubleValue();
 	}
 
 	public boolean isPipeTopLevelNull() {
 		return this.pipeTopLevel == Global.doubleNull;
+	}
+
+	public KeyValuePair<String, Double> getPipeTopLevelKeyValue() {
+		return new KeyValuePair<String, Double>("rl", this.pipeTopLevel);
 	}
 
 	/*
@@ -71,11 +83,15 @@ public abstract class ProfileDatModel {
 	}
 
 	public void setLevelLeft(double levelLeft) {
-		this.levelLeft = levelLeft;
+		this.levelLeft = new BigDecimal(levelLeft).setScale(Global.dataDecimale, RoundingMode.UP).doubleValue();
 	}
 
 	public boolean isLevelLeftNull() {
 		return this.levelLeft == Global.doubleNull;
+	}
+
+	public KeyValuePair<String, Double> getLevelLeftKeyValue() {
+		return new KeyValuePair<String, Double>("rl", this.levelLeft);
 	}
 
 	/*
@@ -95,7 +111,11 @@ public abstract class ProfileDatModel {
 	}
 
 	public void setLevelRight(double levelRight) {
-		this.levelRight = levelRight;
+		this.levelRight = new BigDecimal(levelRight).setScale(Global.dataDecimale, RoundingMode.UP).doubleValue();
+	}
+
+	public KeyValuePair<String, Double> getLevelRightKeyValue() {
+		return new KeyValuePair<String, Double>("ls", this.levelRight);
 	}
 
 	/*
@@ -119,6 +139,10 @@ public abstract class ProfileDatModel {
 		return this.referenceProfile.equals(Global.stringNull);
 	}
 
+	public KeyValuePair<String, String> getReferenceProfileKeyValue() {
+		return new KeyValuePair<String, String>("di", this.referenceProfile);
+	}
+
 	/*
 	 * @ Parameter : id
 	 * 
@@ -140,10 +164,7 @@ public abstract class ProfileDatModel {
 		return this.id.equals(Global.stringNull);
 	}
 
-	/*
-	 * @ Description : check for all property in necessary properties
-	 */
-	public Boolean checkNecessaryProperty() throws Exception {
-		return null;
+	public KeyValuePair<String, String> getIdKeyValue() {
+		return new KeyValuePair<String, String>("id", this.id);
 	}
 }

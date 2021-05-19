@@ -1,6 +1,8 @@
-package SobekDataModel.writer.crossSection.profileDef;
+package SobekDataModel.writer.crossSection.profileDef.properties;
 
 import java.util.List;
+
+import SobekDataModel.writer.crossSection.profileDef.ProfileDefTable;
 
 public class ProgileDefProperties {
 
@@ -15,7 +17,6 @@ public class ProgileDefProperties {
 	 * 
 	 * 2 : closed lumped
 	 */
-
 	public static enum conveyance {
 		verticalSeg(0), openLump(1), closeLump(2);
 
@@ -25,17 +26,18 @@ public class ProgileDefProperties {
 			this.value = value;
 		}
 
-		public conveyance getConveyance(int index) throws Exception {
-			switch (index) {
-			case 0:
-				return conveyance.verticalSeg;
-			case 1:
-				return conveyance.openLump;
-			case 2:
-				return conveyance.closeLump;
-			default:
-				throw new Exception("*ERROR* not allowable value for Conveyance");
-			}
+	}
+
+	public static conveyance getConveyance(int index) throws Exception {
+		switch (index) {
+		case 0:
+			return conveyance.verticalSeg;
+		case 1:
+			return conveyance.openLump;
+		case 2:
+			return conveyance.closeLump;
+		default:
+			throw new Exception("*ERROR* not allowable value for Conveyance");
 		}
 	}
 
@@ -57,16 +59,16 @@ public class ProgileDefProperties {
 		storageType(int value) {
 			this.value = value;
 		}
+	}
 
-		public storageType getStorageType(int index) throws Exception {
-			switch (index) {
-			case 0:
-				return storageType.reservoir;
-			case 1:
-				return storageType.loosWater;
-			default:
-				throw new Exception("*ERROR* not allowable value for StorageType");
-			}
+	public static storageType getStorageType(int index) throws Exception {
+		switch (index) {
+		case 0:
+			return storageType.reservoir;
+		case 1:
+			return storageType.loosWater;
+		default:
+			throw new Exception("*ERROR* not allowable value for StorageType");
 		}
 	}
 
@@ -81,26 +83,27 @@ public class ProgileDefProperties {
 	 * 
 	 */
 	public static enum storageWidth {
-		meters(0), define(1);
+		meters("lt sw 0"), define("lt sw");
 
-		private int value;
+		private String key;
 
-		storageWidth(int value) {
-			this.value = value;
+		storageWidth(String key) {
+			this.key = key;
 		}
 
 		public String getValue() throws Exception {
-			switch (this.value) {
-			case 0:
+			switch (this.key) {
+			case "lt sw 0":
 				return "0";
 			default:
-				throw new Exception("*ERROR* storageWidth type 1, userDefine, needs to setting values");
+				throw new Exception(
+						"*WRAN* storageWidth type 1, userDefine, needs to setting YZvalues\r\nreturn storage type 0, meters 0");
 			}
 		}
 
 		// yzValues = [[y1,z1] , [y2,z2]....]
 		public String getValue(List<Double[]> yzValues) {
-			if (this.value == 1) {
+			if (this.key.equals("lt sw 0")) {
 				ProfileDefTable table = new ProfileDefTable();
 				yzValues.forEach(values -> table.addValue(values[0], values[1]));
 				return table.toString();
@@ -110,15 +113,19 @@ public class ProgileDefProperties {
 			}
 		}
 
-		public storageType getStorageType(int index) throws Exception {
-			switch (index) {
-			case 0:
-				return storageType.reservoir;
-			case 1:
-				return storageType.loosWater;
-			default:
-				throw new Exception("*ERROR* not allowable value for StorageType");
-			}
+		public String getKey() {
+			return this.key;
+		}
+	}
+
+	public static storageType getStorageWidth(String key) throws Exception {
+		switch (key) {
+		case "lt sw 0":
+			return storageType.reservoir;
+		case "lt sw":
+			return storageType.loosWater;
+		default:
+			throw new Exception("*ERROR* not allowable value for StorageType");
 		}
 	}
 

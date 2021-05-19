@@ -1,11 +1,10 @@
 package SobekDataModel.writer.crossSection.profileDef;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.List;
 
 import SobekDataModel.Global;
+import SobekDataModel.KeyValuePair;
+import SobekDataModel.writer.crossSection.profileDef.properties.ProgileDefProperties;
 
 public class ProfileDefModle {
 
@@ -32,6 +31,10 @@ public class ProfileDefModle {
 		return this.id == Global.stringNull;
 	}
 
+	public KeyValuePair<String, String> getIdKeyValue() {
+		return new KeyValuePair<String, String>("id", this.id);
+	}
+
 	/*
 	 * @ Parameter : nm
 	 * 
@@ -56,12 +59,22 @@ public class ProfileDefModle {
 		this.name = name;
 	}
 
+	public KeyValuePair<String, String> getNameKeyValue() {
+		return new KeyValuePair<String, String>("nm", this.name);
+	}
+
 	/*
 	 * @ Parameter : lu
 	 * 
-	 * @ Necessary in ty10
+	 * @ Necessary in ty10, default 0
 	 * 
-	 * @ Description :
+	 * @ Description : calculation of conveyance, 這邊我也看不懂
+	 * 
+	 * 0 : Open vertically segmented
+	 * 
+	 * 1 : Open lumped
+	 * 
+	 * 2 : Closed lumped
 	 * 
 	 */
 	protected ProgileDefProperties.conveyance conveyance = ProgileDefProperties.conveyance.verticalSeg;
@@ -74,16 +87,20 @@ public class ProfileDefModle {
 		this.conveyance = conveyance;
 	}
 
-	public boolean isConveyanceNull() {
-		return this.conveyance == null;
+	public KeyValuePair<String, Integer> getConveyanceKeyValue() {
+		return new KeyValuePair<String, Integer>("lu", this.conveyance.value);
 	}
 
 	/*
 	 * @ Parameter : st
 	 * 
-	 * @ Necessary in ty10
+	 * @ Necessary in ty10, default 0
 	 * 
-	 * @ Description :
+	 * @ Description : storage type
+	 * 
+	 * 0 : reservoir
+	 * 
+	 * 1 : loss water above the highest point in crossSection profile
 	 * 
 	 */
 	protected ProgileDefProperties.storageType storageType = ProgileDefProperties.storageType.reservoir;
@@ -96,8 +113,8 @@ public class ProfileDefModle {
 		this.storageType = storageType;
 	}
 
-	public boolean isStorageTypeNull() {
-		return this.storageType == null;
+	public KeyValuePair<String, Integer> getStorageTypeKeyValue() {
+		return new KeyValuePair<String, Integer>("st", this.storageType.value);
 	}
 
 	/*
@@ -105,21 +122,33 @@ public class ProfileDefModle {
 	 * 
 	 * @ Necessary in ty10
 	 * 
-	 * @ Description :
+	 * @ Description : storage width on surface
+	 * 
+	 * while key = "lt sw 0" that means, width parameter in meters
+	 * 
+	 * while key = "lt sw" this means, width was described by a y-z table
 	 * 
 	 */
 	protected ProgileDefProperties.storageWidth storageWidth = ProgileDefProperties.storageWidth.meters;
 
-	public ProgileDefProperties.storageWidth getStorageWidth() {
-		return this.storageWidth;
+	private String storageWidthKey = this.storageWidth.getKey();
+	private String storageWidthValue = "0";
+
+	public KeyValuePair<String, String> getStorageWidthKeyValue() {
+		return new KeyValuePair<String, String>(this.storageWidthKey, this.storageWidthValue);
 	}
 
-	public void setStorageWidth(ProgileDefProperties.storageWidth storageWidth) {
-		this.storageWidth = storageWidth;
+	// yzList = [[y1,z1],[y2,z2]]
+	public void setStorageWidth(List<Double[]> yzValues) {
+		this.storageWidth = ProgileDefProperties.storageWidth.define;
+		this.storageWidthValue = this.storageWidth.getValue(yzValues);
+		this.storageWidthKey = this.storageWidth.getKey();
 	}
 
-	public boolean isStorageWidthNull() {
-		return this.storageWidth == Global.doubleNull;
+	public void setStorageWidth(double widthMeters) throws Exception {
+		this.storageWidth = ProgileDefProperties.storageWidth.meters;
+		this.storageWidthValue = this.storageWidth.getValue();
+		this.storageWidthKey = this.storageWidth.getKey();
 	}
 
 	/*
@@ -127,7 +156,7 @@ public class ProfileDefModle {
 	 * 
 	 * @ Necessary in ty0
 	 * 
-	 * @ Description :
+	 * @ Description : the width of the main channel
 	 * 
 	 */
 	protected double mainChannelWidth = Global.doubleNull;
@@ -144,15 +173,19 @@ public class ProfileDefModle {
 		return this.mainChannelWidth == Global.doubleNull;
 	}
 
+	public KeyValuePair<String, Double> getMainChannelWidthKeyValue() {
+		return new KeyValuePair<String, Double>("wm", this.mainChannelWidth);
+	}
+
 	/*
 	 * @ Parameter : w1
 	 * 
 	 * @ Optional default 0
 	 * 
-	 * @ Description :
+	 * @ Description : the width of first flood plain(岸旁兩側的高灘地, manual中並未說明左右岸的先後順序)
 	 * 
 	 */
-	protected double floodplainWidth1 = Global.doubleNull;
+	protected double floodplainWidth1 = 0;
 
 	public double getFloodplainWidth1() {
 		return this.floodplainWidth1;
@@ -162,8 +195,8 @@ public class ProfileDefModle {
 		this.floodplainWidth1 = floodplainWidth1;
 	}
 
-	public boolean isFloodplainWidth1Null() {
-		return this.floodplainWidth1 == Global.doubleNull;
+	public KeyValuePair<String, Double> getFloodplainWidth1KeyValue() {
+		return new KeyValuePair<String, Double>("w1", this.floodplainWidth1);
 	}
 
 	/*
@@ -171,10 +204,11 @@ public class ProfileDefModle {
 	 * 
 	 * @ Optional default 0
 	 * 
-	 * @ Description :
+	 * @ Description : the width of second flood plain(岸旁兩側的高灘地,
+	 * manual中並未說明左右岸的先後順序)
 	 * 
 	 */
-	protected double floodplainWidth2 = Global.doubleNull;
+	protected double floodplainWidth2 = 0;
 
 	public double getFloodplainWidth2() {
 		return this.floodplainWidth2;
@@ -184,8 +218,7 @@ public class ProfileDefModle {
 		this.floodplainWidth2 = floodplainWidth2;
 	}
 
-	public boolean isFloodplainWidth2Null() {
-		return this.floodplainWidth2 == Global.doubleNull;
+	public KeyValuePair<String, Double> getFloodplainWidth2KeyValue() {
+		return new KeyValuePair<String, Double>("w2", this.floodplainWidth2);
 	}
-
 }

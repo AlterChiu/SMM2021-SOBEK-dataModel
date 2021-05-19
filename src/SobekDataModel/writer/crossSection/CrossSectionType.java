@@ -49,5 +49,4 @@ public enum CrossSectionType {
 			throw new Exception("*ERROR* not avaliable type, " + this.type);
 		}
 	}
-
 }
