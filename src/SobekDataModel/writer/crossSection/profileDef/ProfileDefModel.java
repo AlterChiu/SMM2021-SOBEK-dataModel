@@ -1,12 +1,15 @@
 package SobekDataModel.writer.crossSection.profileDef;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import SobekDataModel.Global;
 import SobekDataModel.KeyValuePair;
-import SobekDataModel.writer.crossSection.profileDef.properties.ProgileDefProperties;
+import SobekDataModel.writer.crossSection.profileDef.properties.ProfileDefProperties;
+import SobekDataModel.writer.crossSection.profileDef.properties.pipeType.PipeProfileType;
 
-public class ProfileDefModle {
+public class ProfileDefModel {
 
 	/*
 	 * @ Parameter : id
@@ -64,6 +67,19 @@ public class ProfileDefModle {
 	}
 
 	/*
+	 * @ Parameter " ty
+	 * 
+	 * @ Necessary
+	 * 
+	 * @ Description : type for profile
+	 */
+	protected String type = Global.stringNull;
+
+	public String getType() {
+		return this.type;
+	}
+
+	/*
 	 * @ Parameter : lu
 	 * 
 	 * @ Necessary in ty10, default 0
@@ -77,13 +93,13 @@ public class ProfileDefModle {
 	 * 2 : Closed lumped
 	 * 
 	 */
-	protected ProgileDefProperties.conveyance conveyance = ProgileDefProperties.conveyance.verticalSeg;
+	protected ProfileDefProperties.conveyance conveyance = ProfileDefProperties.conveyance.verticalSeg;
 
-	public ProgileDefProperties.conveyance getConveyance() {
+	public ProfileDefProperties.conveyance getConveyance() {
 		return this.conveyance;
 	}
 
-	public void setConveyance(ProgileDefProperties.conveyance conveyance) {
+	public void setConveyance(ProfileDefProperties.conveyance conveyance) {
 		this.conveyance = conveyance;
 	}
 
@@ -103,13 +119,13 @@ public class ProfileDefModle {
 	 * 1 : loss water above the highest point in crossSection profile
 	 * 
 	 */
-	protected ProgileDefProperties.storageType storageType = ProgileDefProperties.storageType.reservoir;
+	protected ProfileDefProperties.storageType storageType = ProfileDefProperties.storageType.reservoir;
 
-	public ProgileDefProperties.storageType getStorageType() {
+	public ProfileDefProperties.storageType getStorageType() {
 		return this.storageType;
 	}
 
-	public void setStorageType(ProgileDefProperties.storageType storageType) {
+	public void setStorageType(ProfileDefProperties.storageType storageType) {
 		this.storageType = storageType;
 	}
 
@@ -129,7 +145,7 @@ public class ProfileDefModle {
 	 * while key = "lt sw" this means, width was described by a y-z table
 	 * 
 	 */
-	protected ProgileDefProperties.storageWidth storageWidth = ProgileDefProperties.storageWidth.meters;
+	protected ProfileDefProperties.storageWidth storageWidth = ProfileDefProperties.storageWidth.meters;
 
 	private String storageWidthKey = this.storageWidth.getKey();
 	private String storageWidthValue = "0";
@@ -140,13 +156,13 @@ public class ProfileDefModle {
 
 	// yzList = [[y1,z1],[y2,z2]]
 	public void setStorageWidth(List<Double[]> yzValues) {
-		this.storageWidth = ProgileDefProperties.storageWidth.define;
+		this.storageWidth = ProfileDefProperties.storageWidth.define;
 		this.storageWidthValue = this.storageWidth.getValue(yzValues);
 		this.storageWidthKey = this.storageWidth.getKey();
 	}
 
 	public void setStorageWidth(double widthMeters) throws Exception {
-		this.storageWidth = ProgileDefProperties.storageWidth.meters;
+		this.storageWidth = ProfileDefProperties.storageWidth.meters;
 		this.storageWidthValue = this.storageWidth.getValue();
 		this.storageWidthKey = this.storageWidth.getKey();
 	}
@@ -166,7 +182,8 @@ public class ProfileDefModle {
 	}
 
 	public void setMainChannelWidth(double mainChannelWidth) {
-		this.mainChannelWidth = mainChannelWidth;
+		this.mainChannelWidth = new BigDecimal(mainChannelWidth).setScale(Global.dataDecimale, RoundingMode.UP)
+				.doubleValue();
 	}
 
 	public boolean isMainChannelWidthNull() {
@@ -192,7 +209,8 @@ public class ProfileDefModle {
 	}
 
 	public void setFloodplainWidth1(double floodplainWidth1) {
-		this.floodplainWidth1 = floodplainWidth1;
+		this.floodplainWidth1 = new BigDecimal(floodplainWidth1).setScale(Global.dataDecimale, RoundingMode.UP)
+				.doubleValue();
 	}
 
 	public KeyValuePair<String, Double> getFloodplainWidth1KeyValue() {
@@ -215,10 +233,137 @@ public class ProfileDefModle {
 	}
 
 	public void setFloodplainWidth2(double floodplainWidth2) {
-		this.floodplainWidth2 = floodplainWidth2;
+		this.floodplainWidth2 = new BigDecimal(floodplainWidth2).setScale(Global.dataDecimale, RoundingMode.UP)
+				.doubleValue();
 	}
 
 	public KeyValuePair<String, Double> getFloodplainWidth2KeyValue() {
 		return new KeyValuePair<String, Double>("w2", this.floodplainWidth2);
 	}
+
+	/*
+	 * @ Parameter : gl
+	 * 
+	 * @ Necessary in ty0, default to 0
+	 * 
+	 * @ Description : ground layer depth
+	 * 
+	 */
+	protected double groundDepth = 0;
+
+	public double getGroundDepth() {
+		return this.mainChannelWidth;
+	}
+
+	public void setGroundDepth(double groundDepth) {
+		this.groundDepth = new BigDecimal(groundDepth).setScale(Global.dataDecimale, RoundingMode.UP).doubleValue();
+	}
+
+	public KeyValuePair<String, Double> getGroundDepthKeyValue() {
+		return new KeyValuePair<String, Double>("gl", this.groundDepth);
+	}
+
+	/*
+	 * @ Parameter : gu
+	 * 
+	 * @ Necessary in ty0
+	 * 
+	 * @ Description : ground layer to be used or not, default to 0
+	 * 
+	 * 0 : not use
+	 * 
+	 * 1 : use
+	 * 
+	 */
+	protected int groundLayerUse = 0;
+
+	public int getGroundLayerUse() {
+		return this.groundLayerUse;
+	}
+
+	public void setGroundLayerUse(boolean trueFalse) {
+		if (trueFalse) {
+			this.groundLayerUse = 1;
+		} else {
+			this.groundLayerUse = 0;
+		}
+	}
+
+	public KeyValuePair<String, Integer> getGroundLayerUseKeyValue() {
+		return new KeyValuePair<String, Integer>("gu", this.groundLayerUse);
+	}
+
+	/*
+	 * @ Parameter : lt zy
+	 * 
+	 * @ Necessary in ty10
+	 * 
+	 * @ Description : table data for y-z crossSection
+	 */
+	protected String yzCrossSection = Global.stringNull;
+
+	public String getYzCrossSection() {
+		return this.yzCrossSection;
+	}
+
+	// yzList = [[y1,z1],[y2,z2]]
+	public void setYzCrossSection(List<Double[]> yzValues) {
+		ProfileDefTable table = new ProfileDefTable();
+		yzValues.forEach(value -> {
+			table.addValue(value[0], value[1]);
+		});
+		this.yzCrossSection = table.toString();
+	}
+
+	public KeyValuePair<String, String> getYzCrossSectionKeyValue() {
+		return new KeyValuePair<String, String>("lt zy", this.yzCrossSection);
+	}
+
+	public boolean isYzCrossSectionIsNull() {
+		return this.yzCrossSection.endsWith(Global.stringNull);
+	}
+
+	/*
+	 * @ Parameter : lt lw
+	 * 
+	 * @ Necessary in ty00
+	 * 
+	 * @ Description : table data for pipe crossSection
+	 */
+	protected String pipeCrossSection = Global.stringNull;
+
+	public String getPipeCrossSection() {
+		return this.pipeCrossSection;
+	}
+
+	// yzList = [[y1,z1],[y2,z2]]
+	public void setPipeCrossSection(List<Double[]> yzValues) {
+		ProfileDefTable table = new ProfileDefTable();
+		yzValues.forEach(value -> {
+			table.addValue(value[0], value[1]);
+		});
+		this.pipeCrossSection = table.toString();
+	}
+
+	public KeyValuePair<String, String> getPipeCrossSectionKeyValue() {
+		return new KeyValuePair<String, String>("lt lw", this.pipeCrossSection);
+	}
+
+	/*
+	 * @ Parameter : a lot
+	 * 
+	 * @ Necessary in ty0
+	 * 
+	 * @ Description : profileType to pipe object
+	 */
+	protected PipeProfileType pipeProfileType;
+
+	public void setPipeProfileType(ProfileDefProperties.pipeCrossSection type) throws Exception {
+		this.pipeProfileType = type.getProfileType();
+	}
+
+	public PipeProfileType getPipeProfileType() {
+		return this.pipeProfileType;
+	}
+
 }

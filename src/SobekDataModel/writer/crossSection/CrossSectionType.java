@@ -3,6 +3,9 @@ package SobekDataModel.writer.crossSection;
 import SobekDataModel.writer.crossSection.profileDat.ProfileDatModel;
 import SobekDataModel.writer.crossSection.profileDat.ProfileDatPipe;
 import SobekDataModel.writer.crossSection.profileDat.ProfileDatYZ;
+import SobekDataModel.writer.crossSection.profileDef.ProfileDefModel;
+import SobekDataModel.writer.crossSection.profileDef.ProfileDefPipe;
+import SobekDataModel.writer.crossSection.profileDef.ProfileDefYZ;
 
 /*
  * @ Parameter : type for crossSection
@@ -36,14 +39,16 @@ public enum CrossSectionType {
 		}
 	}
 
-	public ProfileDatModel getProfileDef() throws Exception {
+	public ProfileDefModel getProfileDef() throws Exception {
 		switch (this.type) {
 
+		// ty 10
 		case "yz":
-			return new ProfileDatYZ();
+			return new ProfileDefYZ();
 
+		// ty0
 		case "pipe":
-			return new ProfileDatPipe();
+			return new ProfileDefPipe();
 
 		default:
 			throw new Exception("*ERROR* not avaliable type, " + this.type);

@@ -2,8 +2,6 @@ package SobekDataModel;
 
 import SobekDataModel.writer.crossSection.CrossSectionType;
 import SobekDataModel.writer.crossSection.profileDat.ProfileDatModel;
-import SobekDataModel.writer.crossSection.profileDef.ProgileDefProperties.storageWidth;
-import SobekDataModel.writer.crossSection.profileDef.properties.conveyance;
 
 public class test {
 

@@ -3,8 +3,14 @@ package SobekDataModel.writer.crossSection.profileDef.properties;
 import java.util.List;
 
 import SobekDataModel.writer.crossSection.profileDef.ProfileDefTable;
+import SobekDataModel.writer.crossSection.profileDef.properties.pipeType.PipeProfileType;
+import SobekDataModel.writer.crossSection.profileDef.properties.pipeType.PipeProfileTypeArch;
+import SobekDataModel.writer.crossSection.profileDef.properties.pipeType.PipeProfileTypeCircle;
+import SobekDataModel.writer.crossSection.profileDef.properties.pipeType.PipeProfileTypeCunettle;
+import SobekDataModel.writer.crossSection.profileDef.properties.pipeType.PipeProfileTypeEllip;
+import SobekDataModel.writer.crossSection.profileDef.properties.pipeType.PipeProfileTypeRec;
 
-public class ProgileDefProperties {
+public class ProfileDefProperties {
 
 	/*
 	 * @Parameter : lu
@@ -127,6 +133,41 @@ public class ProgileDefProperties {
 		default:
 			throw new Exception("*ERROR* not allowable value for StorageType");
 		}
+	}
+
+	/*
+	 * @ Parameter : a lot
+	 * 
+	 * @ Description : type to pipe crossSection
+	 * 
+	 */
+
+	public static enum pipeCrossSection {
+		Arch(0), Circle(1), Cunettle(2), Ellipse(3), Rectangle(4);
+
+		private int index;
+
+		pipeCrossSection(int index) {
+			this.index = index;
+		}
+
+		public PipeProfileType getProfileType() throws Exception {
+			switch (this.index) {
+			case 0:
+				return new PipeProfileTypeArch();
+			case 1:
+				return new PipeProfileTypeCircle();
+			case 2:
+				return new PipeProfileTypeCunettle();
+			case 3:
+				return new PipeProfileTypeEllip();
+			case 4:
+				return new PipeProfileTypeRec();
+			default:
+				throw new Exception("*ERROR* not allowable type of pipeCrossSection, " + this.index);
+			}
+		}
+
 	}
 
 }
