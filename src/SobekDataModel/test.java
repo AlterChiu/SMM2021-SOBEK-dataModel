@@ -2,6 +2,8 @@ package SobekDataModel;
 
 import SobekDataModel.writer.crossSection.CrossSectionType;
 import SobekDataModel.writer.crossSection.profileDat.ProfileDatModel;
+import SobekDataModel.writer.crossSection.profileDef.ProgileDefProperties.storageWidth;
+import SobekDataModel.writer.crossSection.profileDef.properties.conveyance;
 
 public class test {
 
@@ -21,13 +23,19 @@ public class test {
 		System.out.println(pipeProfileDat.toString());
 
 		// yz object
-		ProfileDatModel yzProfileDat = CrossSectionType.PIPE.getProfileDat();
+		ProfileDatModel yzProfileDat = CrossSectionType.YZ.getProfileDat();
 		yzProfileDat.setId("1339");
 		yzProfileDat.setReferenceProfile("P01_D75600-18194");
 		yzProfileDat.setBedLevel(0);
 		yzProfileDat.setLevelLeft(6.57);
 		System.out.println(yzProfileDat.toString());
 		// <========================================================>
+	}
+
+	public static String firstUpcase(String name) {
+		String first = name.substring(0, 1).toUpperCase();
+		String last = name.substring(1, name.length());
+		return first + last;
 	}
 
 }

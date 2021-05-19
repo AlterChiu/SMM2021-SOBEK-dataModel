@@ -34,7 +34,7 @@ public abstract class ProfileDatModel {
 	/*
 	 * @ Parameter : ll
 	 * 
-	 * @ Optional, but necessary/only in pipe object
+	 * @ Necessary in pipe object
 	 * 
 	 * @ Description :
 	 * 
@@ -57,7 +57,7 @@ public abstract class ProfileDatModel {
 	/*
 	 * @ Parameter : rs
 	 * 
-	 * @ Optional, but necessary in crossSection object
+	 * @ Necessary in crossSection object
 	 * 
 	 * @ Description :
 	 * 
