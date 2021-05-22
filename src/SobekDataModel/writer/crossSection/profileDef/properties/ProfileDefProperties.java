@@ -151,7 +151,7 @@ public class ProfileDefProperties {
 			this.index = index;
 		}
 
-		public PipeProfileType getProfileType() throws Exception {
+		public Object getProfileType() throws Exception {
 			switch (this.index) {
 			case 0:
 				return new PipeProfileTypeArch();

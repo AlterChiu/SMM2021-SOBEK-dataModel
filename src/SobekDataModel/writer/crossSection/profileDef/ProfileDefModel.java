@@ -359,7 +359,7 @@ public class ProfileDefModel {
 	protected PipeProfileType pipeProfileType;
 
 	public void setPipeProfileType(ProfileDefProperties.pipeCrossSection type) throws Exception {
-		this.pipeProfileType = type.getProfileType();
+		this.pipeProfileType = (PipeProfileType) type.getProfileType();
 	}
 
 	public PipeProfileType getPipeProfileType() {
