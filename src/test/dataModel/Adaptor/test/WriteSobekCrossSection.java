@@ -1,4 +1,4 @@
-package dataModel.Adaptor.test;
+package test.dataModel.Adaptor.test;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,8 +28,8 @@ public class WriteSobekCrossSection {
 	public List<AbstractCrossSection> getCrossSectionList() throws IOException, CsvException, URISyntaxException {
 
 		// Loading all lit files from test/resources/HsinchuLit/1.
-		URI uri = Objects.requireNonNull(getClass().getClassLoader().getResource("sobekLit/HsinchuLit/1")).toURI();
-		Path standardPath = Paths.get(uri);
+		Path standardPath = Paths
+				.get("K:\\Code\\JAVA-WorkSpace\\modeltools\\data-model\\src\\test\\resources\\sobekLit\\HsinchuLit\\1");
 		FileLoader fileLoader = new FileLoader(standardPath);
 
 		// process-Middleware for network

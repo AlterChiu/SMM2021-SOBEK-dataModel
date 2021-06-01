@@ -1,4 +1,4 @@
-package dataModel.Adaptor.test;
+package test.dataModel.Adaptor.test;
 
 import java.io.IOException;
 import java.net.URI;
@@ -35,23 +35,20 @@ public class test {
 
 		crossSections.forEach(crossSection -> {
 			String id = crossSection.getProperties().get("sobek_id").toString();
-			System.out.print(id + "\t");
 
 			try {
 				profileDat.add(AdaptorProfileDat.getModel(crossSection).toString());
-				System.out.print("datOK\t");
 			} catch (Exception e) {
-				System.out.print("datFaild\t");
+				e.printStackTrace();
+				System.out.println(id + "\tdatFaild\t");
 			}
 
 			try {
 				profileDef.add(AdaptorProfileDef.getModel(crossSection).toString());
-				System.out.print("defOK\t");
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.out.print("defFaild\t");
+				System.out.println(id + "\tdefFaild\t");
 			}
-			System.out.println();
 		});
 
 		writer.saveProfileDat(profileDat);

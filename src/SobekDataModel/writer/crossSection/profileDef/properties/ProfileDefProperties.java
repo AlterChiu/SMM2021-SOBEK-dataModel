@@ -142,12 +142,12 @@ public class ProfileDefProperties {
 	 * 
 	 */
 
-	public static enum pipeCrossSection {
+	public static enum RecPipeProfileType {
 		Arch(0), Circle(1), Cunettle(2), Ellipse(3), Rectangle(4);
 
 		private int index;
 
-		pipeCrossSection(int index) {
+		RecPipeProfileType(int index) {
 			this.index = index;
 		}
 

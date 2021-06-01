@@ -35,6 +35,17 @@ public class ProfileDefTable {
 		this.tableValue.put(yString, multipleZDetection(zList));
 	}
 
+	public void addValue(double height, double width, double floodWodth) {
+		String heightString = new BigDecimal(height).setScale(Global.dataDecimale, RoundingMode.HALF_UP).toString();
+		String widthString = new BigDecimal(width).setScale(Global.dataDecimale, RoundingMode.HALF_UP).toString();
+		String floodString = new BigDecimal(floodWodth).setScale(Global.dataDecimale, RoundingMode.HALF_UP).toString();
+
+		Set<String> temptList = Optional.ofNullable(this.tableValue.get(heightString)).orElse(new LinkedHashSet<>());
+		temptList.add(widthString + " " + floodString);
+
+		this.tableValue.put(heightString, temptList);
+	}
+
 	public String toString() {
 		StringBuilder outString = new StringBuilder();
 		outString.append("TBLE\r\n");

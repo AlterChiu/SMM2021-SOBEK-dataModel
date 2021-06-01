@@ -23,7 +23,7 @@ public abstract class ProfileDatModel {
 	 */
 	protected double bedLevel = Global.doubleNull;
 
-	public double getBebLevel() {
+	public double getBedLevel() {
 		return this.bedLevel;
 	}
 

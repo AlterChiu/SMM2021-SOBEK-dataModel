@@ -1,4 +1,4 @@
-package dataModel.Adaptor.ProfileDat;
+package test.dataModel.Adaptor.ProfileDat;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public class AdaptorProfileDat {
 		// yzProfile
 		if (properties.containsKey("rs")) {
 			model = CrossSectionType.YZ.getProfileDat();
-			model.setId(properties.get("sobek_id").toString());
+			model.setId(properties.get("node_id").toString());
 			model.setReferenceProfile(properties.get("referent_id").toString());
 			model.setLevelLeft(Double.parseDouble(properties.get("rs").toString()));
 			model.setBedLevel(Double.parseDouble(properties.get("rl").toString()));
@@ -24,8 +24,8 @@ public class AdaptorProfileDat {
 
 			// pipe profile
 		} else if (properties.containsKey("ll")) {
-			model = CrossSectionType.PIPE.getProfileDat();
-			model.setId(properties.get("sobek_id").toString());
+			model = CrossSectionType.PIPEREC.getProfileDat();
+			model.setId(properties.get("node_id").toString());
 			model.setReferenceProfile(properties.get("di").toString());
 			model.setPipeTopLevel(Double.parseDouble(properties.get("ll").toString()));
 			model.setBedLevel(Double.parseDouble(properties.get("rl").toString()));

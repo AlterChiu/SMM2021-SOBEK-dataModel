@@ -4,7 +4,8 @@ import SobekDataModel.writer.crossSection.profileDat.ProfileDatModel;
 import SobekDataModel.writer.crossSection.profileDat.ProfileDatPipe;
 import SobekDataModel.writer.crossSection.profileDat.ProfileDatYZ;
 import SobekDataModel.writer.crossSection.profileDef.ProfileDefModel;
-import SobekDataModel.writer.crossSection.profileDef.ProfileDefPipe;
+import SobekDataModel.writer.crossSection.profileDef.ProfileDefPipeCircle;
+import SobekDataModel.writer.crossSection.profileDef.ProfileDefPipeRec;
 import SobekDataModel.writer.crossSection.profileDef.ProfileDefYZ;
 
 /*
@@ -17,7 +18,7 @@ import SobekDataModel.writer.crossSection.profileDef.ProfileDefYZ;
  * currently there are only "yz-Profile" and "pipe-Profile"
  */
 public enum CrossSectionType {
-	PIPE("pipe"), YZ("yz");
+	PIPEREC("RecPipe"), PIPECIRCLE("CirPipe"), YZ("yz");
 
 	private String type;
 
@@ -31,7 +32,10 @@ public enum CrossSectionType {
 		case "yz":
 			return new ProfileDatYZ();
 
-		case "pipe":
+		case "RecPipe":
+			return new ProfileDatPipe();
+
+		case "CirPipe":
 			return new ProfileDatPipe();
 
 		default:
@@ -47,8 +51,12 @@ public enum CrossSectionType {
 			return new ProfileDefYZ();
 
 		// ty0
-		case "pipe":
-			return new ProfileDefPipe();
+		case "RecPipe":
+			return new ProfileDefPipeRec();
+
+		// ty 4
+		case "CirPipe":
+			return new ProfileDefPipeCircle();
 
 		default:
 			throw new Exception("*ERROR* not avaliable type, " + this.type);

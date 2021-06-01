@@ -7,6 +7,7 @@ import java.util.List;
 import SobekDataModel.Global;
 import SobekDataModel.KeyValuePair;
 import SobekDataModel.writer.crossSection.profileDef.properties.ProfileDefProperties;
+import SobekDataModel.writer.crossSection.profileDef.properties.ProfileDefProperties.RecPipeProfileType;
 import SobekDataModel.writer.crossSection.profileDef.properties.pipeType.PipeProfileType;
 
 public class ProfileDefModel {
@@ -289,6 +290,10 @@ public class ProfileDefModel {
 		}
 	}
 
+	public void setGroundLayerUse(int trueFalse) {
+		this.groundLayerUse = trueFalse;
+	}
+
 	public KeyValuePair<String, Integer> getGroundLayerUseKeyValue() {
 		return new KeyValuePair<String, Integer>("gu", this.groundLayerUse);
 	}
@@ -336,13 +341,17 @@ public class ProfileDefModel {
 		return this.pipeCrossSection;
 	}
 
-	// yzList = [[y1,z1],[y2,z2]]
+	// yzList = [[height1, width1, floodWidth1],[height2, width2, floodWidth2]]
 	public void setPipeCrossSection(List<Double[]> yzValues) {
 		ProfileDefTable table = new ProfileDefTable();
 		yzValues.forEach(value -> {
-			table.addValue(value[0], value[1]);
+			table.addValue(value[0], value[1], value[1]);
 		});
 		this.pipeCrossSection = table.toString();
+	}
+
+	public boolean isPipeCrossSectionNull() {
+		return this.pipeCrossSection.equals(Global.stringNull);
 	}
 
 	public KeyValuePair<String, String> getPipeCrossSectionKeyValue() {
@@ -352,18 +361,71 @@ public class ProfileDefModel {
 	/*
 	 * @ Parameter : a lot
 	 * 
-	 * @ Necessary in ty0
+	 * @ Option in ty0
 	 * 
 	 * @ Description : profileType to pipe object
 	 */
-	protected PipeProfileType pipeProfileType;
+	protected PipeProfileType recPipeProfileType;
 
-	public void setPipeProfileType(ProfileDefProperties.pipeCrossSection type) throws Exception {
-		this.pipeProfileType = (PipeProfileType) type.getProfileType();
+	public void setRecPipeProfileType(PipeProfileType type) throws Exception {
+		this.recPipeProfileType = type;
 	}
 
-	public PipeProfileType getPipeProfileType() {
-		return this.pipeProfileType;
+	public PipeProfileType getRecPipeProfileType() {
+		return this.recPipeProfileType;
+	}
+
+	/*
+	 * @ Parameter : bl
+	 * 
+	 * @ Necessary in ty 4 (circle pipe)
+	 * 
+	 * @ Description : it's the end level of the pipe(lowest level)
+	 * 
+	 */
+	protected double bedLevel = Global.doubleNull;
+
+	public double getBedLevel() {
+		return this.bedLevel;
+	}
+
+	public void setBedLevel(double bedLevel) {
+		this.bedLevel = new BigDecimal(bedLevel).setScale(Global.dataDecimale, RoundingMode.UP).doubleValue();
+	}
+
+	public boolean isBedLevelNull() {
+		return this.bedLevel == Global.doubleNull;
+	}
+
+	public KeyValuePair<String, Double> getBedLevelKeyValue() {
+		return new KeyValuePair<String, Double>("rl", this.bedLevel);
+	}
+
+	/*
+	 * @ Parameter : rd
+	 * 
+	 * @ Necessary in ty 4
+	 * 
+	 * @ Description : radius of circle pipe
+	 *
+	 * 
+	 */
+	protected double radius = Global.doubleNull;
+
+	public double getRadius() {
+		return this.radius;
+	}
+
+	public void setRadius(double radius) {
+		this.radius = new BigDecimal(radius).setScale(Global.dataDecimale, RoundingMode.UP).doubleValue();
+	}
+
+	public boolean isRadiusNull() {
+		return this.radius == Global.doubleNull;
+	}
+
+	public KeyValuePair<String, Double> getRadiusKeyValue() {
+		return new KeyValuePair<String, Double>("rd", this.radius);
 	}
 
 }

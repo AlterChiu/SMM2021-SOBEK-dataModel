@@ -4,9 +4,9 @@ import java.util.List;
 
 import SobekDataModel.KeyValuePair;
 
-public class ProfileDefPipe extends ProfileDefModel {
+public class ProfileDefPipeRec extends ProfileDefModel {
 
-	public ProfileDefPipe() {
+	public ProfileDefPipeRec() {
 		this.type = "0";
 	}
 
@@ -18,7 +18,11 @@ public class ProfileDefPipe extends ProfileDefModel {
 
 		if (this.isMainChannelWidthNull())
 			throw new Exception("*ERROR* no main channel width (key:wm) for crossSection");
-
+		
+		if(this.isPipeCrossSectionNull()) {
+			throw new Exception("*ERROR* no pipe crossSection (key:lt lw)");
+		}
+		
 		// ======================================================
 		// there is another property, pipeCrossSection type need to be check,
 		// but it will be auto check while getting keyvaluePair,
@@ -55,10 +59,14 @@ public class ProfileDefPipe extends ProfileDefModel {
 			outString.append(" " + mainChannelWidth.getKey() + " " + mainChannelWidth.getValue());
 
 			// setting pipe crossSection type
-			List<KeyValuePair<String, Double>> corrSectiontypeValues = this.getPipeProfileType().getKeyValues();
-			corrSectiontypeValues.forEach(keyValue -> {
-				outString.append(" " + keyValue.getKey() + " " + keyValue.getValue());
-			});
+			try {
+				List<KeyValuePair<String, Double>> recPipeTypeValues = this.getRecPipeProfileType().getKeyValues();
+				recPipeTypeValues.forEach(keyValue -> {
+					outString.append(" " + keyValue.getKey() + " " + keyValue.getValue());
+				});
+			} catch (Exception e) {
+				new Exception("*WRAN* no RecPipe type in, sobek id " + id.getValue());
+			}
 
 			// set flood plain 1
 			KeyValuePair floodPlain1 = this.getFloodplainWidth1KeyValue();
@@ -78,7 +86,7 @@ public class ProfileDefPipe extends ProfileDefModel {
 
 			// set ground layer using or not
 			KeyValuePair pipeCrossSection = this.getPipeCrossSectionKeyValue();
-			outString.append(" " + pipeCrossSection.getKey() + "\r\n" + groundLayerUse.getValue() + "\r\n");
+			outString.append(" " + pipeCrossSection.getKey() + "\r\n" + pipeCrossSection.getValue() + "\r\n");
 
 			// end tag
 			outString.append("crds");
