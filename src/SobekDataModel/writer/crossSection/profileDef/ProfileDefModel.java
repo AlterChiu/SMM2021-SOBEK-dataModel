@@ -398,7 +398,7 @@ public class ProfileDefModel {
 	}
 
 	public KeyValuePair<String, Double> getBedLevelKeyValue() {
-		return new KeyValuePair<String, Double>("rl", this.bedLevel);
+		return new KeyValuePair<String, Double>("bl", this.bedLevel);
 	}
 
 	/*
