@@ -95,6 +95,7 @@ public class PipeProfileTypeCunettle implements PipeProfileType {
 		this.amgleA1 = new BigDecimal(amgleA1).setScale(Global.dataDecimale, RoundingMode.HALF_UP).doubleValue();
 	}
 
+
 	@Override
 	public List<KeyValuePair<String, Double>> getKeyValues() throws Exception {
 		List<KeyValuePair<String, Double>> outList = new ArrayList<>();
@@ -109,4 +110,5 @@ public class PipeProfileTypeCunettle implements PipeProfileType {
 
 		return outList;
 	}
+
 }

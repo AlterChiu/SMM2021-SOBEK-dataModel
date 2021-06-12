@@ -28,7 +28,7 @@ public class AdaptorProfileDef {
 			model = CrossSectionType.PIPEREC.getProfileDef();
 			return setRecPipeCrossSectionModel(model, properties);
 
-			// rec-pipe crossSection
+			// circle-pipe crossSection
 		} else if (properties.containsKey("rd")) {
 			model = CrossSectionType.PIPECIRCLE.getProfileDef();
 			return setCirclePipeCrossSectionModel(model, properties);

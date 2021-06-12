@@ -3,6 +3,7 @@ package SobekDataModel.writer.crossSection.profileDef;
 import java.util.List;
 
 import SobekDataModel.KeyValuePair;
+import SobekDataModel.writer.crossSection.profileDef.properties.pipeType.PipeProfileTypeRec;
 
 public class ProfileDefPipeRec extends ProfileDefModel {
 
@@ -18,16 +19,19 @@ public class ProfileDefPipeRec extends ProfileDefModel {
 
 		if (this.isMainChannelWidthNull())
 			throw new Exception("*ERROR* no main channel width (key:wm) for crossSection");
-		
-		if(this.isPipeCrossSectionNull()) {
-			throw new Exception("*ERROR* no pipe crossSection (key:lt lw)");
+
+		// check for crossSection type in RecPipe (ty = 0)
+		if (this.isRecPipeProfileTypeNull())
+			throw new Exception("*ERROR* missing profile type for recPipe, in crossection ty=0");
+
+		// if crossSection type not equals to square
+		if (!(this.getRecPipeProfileType() instanceof PipeProfileTypeRec)) {
+
+			// check for table value is exist or not
+			if (this.isPipeCrossSectionNull()) {
+				throw new Exception("*ERROR* no pipe crossSection (key:lt lw)");
+			}
 		}
-		
-		// ======================================================
-		// there is another property, pipeCrossSection type need to be check,
-		// but it will be auto check while getting keyvaluePair,
-		// so there is no needed hear
-		// ======================================================
 
 		return true;
 	}
@@ -84,18 +88,41 @@ public class ProfileDefPipeRec extends ProfileDefModel {
 			KeyValuePair groundLayerUse = this.getGroundLayerUseKeyValue();
 			outString.append(" " + groundLayerUse.getKey() + " " + groundLayerUse.getValue());
 
-			// set ground layer using or not
-			KeyValuePair pipeCrossSection = this.getPipeCrossSectionKeyValue();
-			outString.append(" " + pipeCrossSection.getKey() + "\r\n" + pipeCrossSection.getValue() + "\r\n");
+			// Optional
+			// ========================================================================
 
+			// set crossSection table
+			// auto create table
+			if (this.getRecPipeProfileType() instanceof PipeProfileTypeRec) {
+				double height = ((PipeProfileTypeRec) this.getRecPipeProfileType()).getHeight();
+				double width = ((PipeProfileTypeRec) this.getRecPipeProfileType()).getWidth();
+
+				ProfileDefTable table = new ProfileDefTable();
+				table.addValue(0, width, width);
+				table.addValue(height, width, width);
+				table.addValue(height + 0.0001, 0.0001, 0.0001);
+				outString.append(" " + table.toString());
+
+				// using table value
+			} else {
+				KeyValuePair pipeCrossSection = this.getPipeCrossSectionKeyValue();
+				outString.append(" " + pipeCrossSection.getKey() + "\r\n" + pipeCrossSection.getValue());
+			}
+
+			// END
+			// ========================================================================
 			// end tag
-			outString.append("crds");
+			outString.append(" crds");
 
 			return outString.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public static void recTableCreate(double rw, double rh) {
+
 	}
 
 }

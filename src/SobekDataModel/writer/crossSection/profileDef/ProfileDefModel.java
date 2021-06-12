@@ -3,6 +3,7 @@ package SobekDataModel.writer.crossSection.profileDef;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Optional;
 
 import SobekDataModel.Global;
 import SobekDataModel.KeyValuePair;
@@ -365,7 +366,7 @@ public class ProfileDefModel {
 	 * 
 	 * @ Description : profileType to pipe object
 	 */
-	protected PipeProfileType recPipeProfileType;
+	protected PipeProfileType recPipeProfileType = null;
 
 	public void setRecPipeProfileType(PipeProfileType type) throws Exception {
 		this.recPipeProfileType = type;
@@ -373,6 +374,10 @@ public class ProfileDefModel {
 
 	public PipeProfileType getRecPipeProfileType() {
 		return this.recPipeProfileType;
+	}
+
+	public boolean isRecPipeProfileTypeNull() {
+		return Optional.ofNullable(this.recPipeProfileType).isEmpty();
 	}
 
 	/*
